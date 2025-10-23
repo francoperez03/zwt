@@ -7,7 +7,7 @@ export class SemaphoreGuard implements CanActivate {
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
-    const proofHeader = request.headers['x-semaphore-proof'];
+    const proofHeader = request.headers['X-ZWT-TOKEN'];
 
     if (!proofHeader) {
       throw new UnauthorizedException('Semaphore proof required');
