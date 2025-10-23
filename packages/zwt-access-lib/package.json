@@ -1,0 +1,28 @@
+{
+  "name": "zwt-access-lib",
+  "version": "0.1.0",
+  "description": "Shared library for Semaphore-based anonymous access control",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist"
+  },
+  "keywords": [
+    "semaphore",
+    "zero-knowledge",
+    "access-control"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@semaphore-protocol/identity": "^4.0.3",
+    "@semaphore-protocol/group": "^4.0.3",
+    "@semaphore-protocol/proof": "^4.0.3",
+    "poseidon-lite": "^0.3.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}

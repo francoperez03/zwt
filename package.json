@@ -1,0 +1,27 @@
+{
+  "name": "zwt-monorepo",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Zero-Knowledge Token - Anonymous Access Control with Semaphore Protocol",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "dev:lib": "npm run dev --workspace=zwt-access-lib",
+    "dev:api": "npm run dev --workspace=api-server",
+    "dev:frontend": "npm run dev --workspace=frontend",
+    "clean": "npm run clean --workspaces --if-present"
+  },
+  "keywords": [
+    "semaphore",
+    "zero-knowledge",
+    "anonymous-auth",
+    "monorepo"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  }
+}
