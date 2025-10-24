@@ -72,6 +72,13 @@ function InstallAnimation() {
   const [currentCommand, setCurrentCommand] = useState('');
   const [showRunning, setShowRunning] = useState(false);
   const [animationKey, setAnimationKey] = useState(0);
+  const [copied, setCopied] = useState(false);
+
+  const copyCommand = () => {
+    navigator.clipboard.writeText('npm install zwt-access-lib');
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   useEffect(() => {
     const command = 'npm install zwt-access-lib';
@@ -149,12 +156,19 @@ function InstallAnimation() {
         <span className={styles.terminalDot} style={{background: '#ffbd2e'}}></span>
         <span className={styles.terminalDot} style={{background: '#27c93f'}}></span>
         <span className={styles.terminalTitle}>terminal</span>
+        <button
+          className={styles.copyButton}
+          onClick={copyCommand}
+          title="Copy command"
+        >
+          {copied ? '✓ Copied!' : '📋 Copy'}
+        </button>
       </div>
       <div className={styles.terminalContent}>
         {!showRunning && (
           <div className={styles.terminalLine}>
             <span className={styles.terminalPrompt}>$</span> {currentCommand}
-            {isTyping && <span className={styles.cursor}>▌</span>}
+            {isTyping && <span className={styles.cursor}>|</span>}
           </div>
         )}
         {lines.map((line, i) => (
@@ -165,7 +179,7 @@ function InstallAnimation() {
         {lines.length > 0 && lines.length >= 7 && (
           <div className={styles.terminalLine}>
             <span className={styles.terminalPrompt}>$</span>
-            <span className={styles.cursor}>▌</span>
+            <span className={styles.cursor}>|</span>
           </div>
         )}
       </div>
@@ -216,122 +230,124 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 3. Problem/Solution Section (NEW) */}
-        <section className={styles.problemSolution}>
+        {/* 3. Installation */}
+        <section className={styles.installSection}>
           <div className="container">
-            <h2 className={styles.sectionTitle}>Authentication Without Surveillance</h2>
-            <p className={styles.problemSubtitle}>
-              Traditional auth systems force a choice between security and privacy. ZWT eliminates that trade-off.
-            </p>
-
-            <div className={styles.comparisonContainer}>
-              <div className={styles.comparisonSide}>
-                <div className={styles.comparisonBadge} data-type="problem">Traditional Auth</div>
-
-                <div className={styles.metricBoxes}>
-                  <div className={styles.metricBox} data-type="problem">
-                    <div className={styles.metricIcon}>📊</div>
-                    <div className={styles.metricContent}>
-                      <div className={styles.metricLabel}>User Data Stored</div>
-                      <div className={styles.metricValue}>Emails, IPs, Sessions</div>
-                    </div>
-                  </div>
-
-                  <div className={styles.metricBox} data-type="problem">
-                    <div className={styles.metricIcon}>🎯</div>
-                    <div className={styles.metricContent}>
-                      <div className={styles.metricLabel}>Tracking Level</div>
-                      <div className={styles.metricValue}>Every Request Logged</div>
-                    </div>
-                  </div>
-
-                  <div className={styles.metricBox} data-type="problem">
-                    <div className={styles.metricIcon}>⚖️</div>
-                    <div className={styles.metricContent}>
-                      <div className={styles.metricLabel}>Compliance Burden</div>
-                      <div className={styles.metricValue}>GDPR, CCPA, HIPAA</div>
-                    </div>
-                  </div>
-
-                  <div className={styles.metricBox} data-type="problem">
-                    <div className={styles.metricIcon}>🎯</div>
-                    <div className={styles.metricContent}>
-                      <div className={styles.metricLabel}>Breach Risk</div>
-                      <div className={styles.metricValue}>High-Value Target</div>
-                    </div>
-                  </div>
-                </div>
+            <div className={styles.installBox}>
+              <div className={styles.installHeader}>
+                <h2>Quick Install</h2>
+                <span className={styles.versionBadge}>v1.0.0</span>
               </div>
-
-              <div className={styles.comparisonDivider}>
-                <div className={styles.dividerLine}></div>
-                <div className={styles.dividerIcon}>→</div>
-                <div className={styles.dividerLine}></div>
-              </div>
-
-              <div className={styles.comparisonSide}>
-                <div className={styles.comparisonBadge} data-type="solution">Zero-Knowledge Auth</div>
-
-                <div className={styles.metricBoxes}>
-                  <div className={styles.metricBox} data-type="solution">
-                    <div className={styles.metricIcon}>🔐</div>
-                    <div className={styles.metricContent}>
-                      <div className={styles.metricLabel}>User Data Stored</div>
-                      <div className={styles.metricValue}>Zero PII</div>
-                    </div>
-                  </div>
-
-                  <div className={styles.metricBox} data-type="solution">
-                    <div className={styles.metricIcon}>👻</div>
-                    <div className={styles.metricContent}>
-                      <div className={styles.metricLabel}>Tracking Level</div>
-                      <div className={styles.metricValue}>Cryptographically Impossible</div>
-                    </div>
-                  </div>
-
-                  <div className={styles.metricBox} data-type="solution">
-                    <div className={styles.metricIcon}>✅</div>
-                    <div className={styles.metricContent}>
-                      <div className={styles.metricLabel}>Compliance Burden</div>
-                      <div className={styles.metricValue}>Privacy by Design</div>
-                    </div>
-                  </div>
-
-                  <div className={styles.metricBox} data-type="solution">
-                    <div className={styles.metricIcon}>🛡️</div>
-                    <div className={styles.metricContent}>
-                      <div className={styles.metricLabel}>Breach Risk</div>
-                      <div className={styles.metricValue}>Nothing to Steal</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className={styles.statsBar}>
-              <div className={styles.statBox}>
-                <div className={styles.statNumber}>0</div>
-                <div className={styles.statLabel}>PII Stored</div>
-              </div>
-              <div className={styles.statBox}>
-                <div className={styles.statNumber}>0</div>
-                <div className={styles.statLabel}>Session Tracking</div>
-              </div>
-              <div className={styles.statBox}>
-                <div className={styles.statNumber}>100%</div>
-                <div className={styles.statLabel}>Privacy Guaranteed</div>
-              </div>
-            </div>
-
-            <div className={styles.problemCta}>
-              <p className={styles.problemCtaText}>
-                For CTOs: Reduce your attack surface, eliminate PII storage liability, and build user trust through cryptographic guarantees—not policies.
-              </p>
+              <InstallAnimation />
             </div>
           </div>
         </section>
 
-        {/* 4. Use Cases (MOVED) */}
+        {/* 4. Authentication Without Surveillance */}
+        <section className={styles.comparisonSection}>
+          <div className="container">
+            <h2 className={styles.sectionTitle}>Authentication Without Surveillance</h2>
+            <p className={styles.sectionSubtitle}>
+              Traditional auth systems force a choice between security and privacy. ZWT eliminates that trade-off.
+            </p>
+
+            <div className={styles.comparisonWrapper}>
+              {/* Traditional Auth Card */}
+              <div className={styles.comparisonCard}>
+                <div className={styles.cardHeader}>
+                  <h3>Traditional Auth</h3>
+                  <span className={styles.cardBadge}>Current Standard</span>
+                </div>
+
+                <div className={styles.featureList}>
+                  <div className={styles.featureItem}>
+                    <span className={styles.featureIcon}>📊</span>
+                    <div className={styles.featureContent}>
+                      <strong>User Data Storage</strong>
+                      <p>Emails, passwords, IPs, session tokens tracked forever</p>
+                    </div>
+                  </div>
+
+                  <div className={styles.featureItem}>
+                    <span className={styles.featureIcon}>🎯</span>
+                    <div className={styles.featureContent}>
+                      <strong>Request Tracking</strong>
+                      <p>Every action logged and linked to user identity</p>
+                    </div>
+                  </div>
+
+                  <div className={styles.featureItem}>
+                    <span className={styles.featureIcon}>⚖️</span>
+                    <div className={styles.featureContent}>
+                      <strong>Compliance Burden</strong>
+                      <p>GDPR, CCPA, HIPAA requirements for data handling</p>
+                    </div>
+                  </div>
+
+                  <div className={styles.featureItem}>
+                    <span className={styles.featureIcon}>🎯</span>
+                    <div className={styles.featureContent}>
+                      <strong>Security Risk</strong>
+                      <p>High-value target for attackers and data breaches</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Zero-Knowledge Auth Card */}
+              <div className={styles.comparisonCard} data-highlight="true">
+                <div className={styles.cardHeader}>
+                  <h3>Zero-Knowledge Auth</h3>
+                  <span className={styles.cardBadge} data-type="primary">With ZWT</span>
+                </div>
+
+                <div className={styles.featureList}>
+                  <div className={styles.featureItem}>
+                    <span className={styles.featureIcon}>🔐</span>
+                    <div className={styles.featureContent}>
+                      <strong>Zero PII Storage</strong>
+                      <p>Only cryptographic commitments, no personal data</p>
+                    </div>
+                  </div>
+
+                  <div className={styles.featureItem}>
+                    <span className={styles.featureIcon}>👻</span>
+                    <div className={styles.featureContent}>
+                      <strong>Anonymous by Design</strong>
+                      <p>Tracking is cryptographically impossible</p>
+                    </div>
+                  </div>
+
+                  <div className={styles.featureItem}>
+                    <span className={styles.featureIcon}>✅</span>
+                    <div className={styles.featureContent}>
+                      <strong>Privacy by Default</strong>
+                      <p>Automatic compliance with privacy regulations</p>
+                    </div>
+                  </div>
+
+                  <div className={styles.featureItem}>
+                    <span className={styles.featureIcon}>🛡️</span>
+                    <div className={styles.featureContent}>
+                      <strong>Nothing to Breach</strong>
+                      <p>No sensitive data means no data breach liability</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className={styles.ctoQuote}>
+              <div className={styles.quoteIcon}>"</div>
+              <blockquote className={styles.quoteText}>
+                Reduce your attack surface, eliminate PII storage liability, and build user trust through cryptographic guarantees—not policies.
+              </blockquote>
+              <div className={styles.quoteAttribution}>For CTOs & Security Leaders</div>
+            </div>
+          </div>
+        </section>
+
+        {/* 5. Use Cases (MOVED) */}
         <section className={styles.useCases}>
           <div className="container">
             <h2 className={styles.sectionTitle}>Perfect For</h2>
@@ -388,7 +404,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 5. How It Works (MOVED) */}
+        {/* 6. How It Works (MOVED) */}
         <section className={styles.howItWorks}>
           <div className="container">
             <h2 className={styles.sectionTitle}>How It Works</h2>
@@ -433,219 +449,89 @@ export default function Home() {
           </div>
         </section>
 
-        {/* 6. Installation */}
-        <section className={styles.installSection}>
-          <div className="container">
-            <div className={styles.installBox}>
-              <div className={styles.installHeader}>
-                <h2>Quick Install</h2>
-                <span className={styles.versionBadge}>v1.0.0</span>
-              </div>
-              <InstallAnimation />
-            </div>
-          </div>
-        </section>
-
         {/* 7. It's This Simple */}
         <section className={styles.simpleDemo}>
           <div className="container">
             <h2 className={styles.sectionTitle}>It's This Simple</h2>
 
-            <div className={styles.demoSteps}>
-              <div className={styles.demoStep}>
-                <div className={styles.stepBadge}>1</div>
-                <h3>Backend Setup</h3>
-                <p style={{ marginBottom: '1rem', color: 'var(--ifm-color-content-secondary)' }}>
-                  Protect your endpoint with one decorator
-                </p>
+            <div className={styles.carouselWrapper}>
+              <div className={styles.demoSteps}>
+                <div className={styles.demoStep} id="slide-1">
+                <div className={styles.demoStepHeader}>
+                  <div className={styles.stepBadge}>1</div>
+                  <div className={styles.demoStepInfo}>
+                    <h3>Backend Setup</h3>
+                    <p>Protect your endpoint with one decorator</p>
+                  </div>
+                </div>
                 <CodeBlock language="typescript" className={styles.demoCodeBlock}>
-{`// app.controller.ts
-import { Controller, Get, UseGuards } from '@nestjs/common';
-import { SemaphoreGuard } from 'zwt-access-lib';
-
-@Controller()
+{`@Controller('api')
 export class AppController {
   @Get('protected')
   @UseGuards(SemaphoreGuard)
   getResource() {
-    return { data: 'Secret data!' };
+    return { data: 'Secret!' };
   }
 }`}
                 </CodeBlock>
               </div>
 
-              <div className={styles.demoStep}>
-                <div className={styles.stepBadge}>2</div>
-                <h3>Frontend Setup</h3>
-                <p style={{ marginBottom: '1rem', color: 'var(--ifm-color-content-secondary)' }}>
-                  Create anonymous identity locally
-                </p>
+              <div className={styles.demoStep} id="slide-2">
+                <div className={styles.demoStepHeader}>
+                  <div className={styles.stepBadge}>2</div>
+                  <div className={styles.demoStepInfo}>
+                    <h3>Frontend Setup</h3>
+                    <p>Create and store identity securely</p>
+                  </div>
+                </div>
                 <CodeBlock language="typescript" className={styles.demoCodeBlock}>
-{`// client.ts
-const identity = createIdentity();
+{`const identity = createIdentity();
 
-// Stored locally only
-// Never leaves the device`}
+localStorage.setItem('identity',
+  JSON.stringify(identity)
+);
+
+await fetch('/auth/register', {
+  body: JSON.stringify({
+    commitment: identity.commitment
+  })
+});`}
                 </CodeBlock>
               </div>
 
-              <div className={styles.demoStep}>
-                <div className={styles.stepBadge}>3</div>
-                <h3>Make Request</h3>
-                <p style={{ marginBottom: '1rem', color: 'var(--ifm-color-content-secondary)' }}>
-                  Zero-knowledge proof sent automatically
-                </p>
+              <div className={styles.demoStep} id="slide-3">
+                <div className={styles.demoStepHeader}>
+                  <div className={styles.stepBadge}>3</div>
+                  <div className={styles.demoStepInfo}>
+                    <h3>Make Authenticated Request</h3>
+                    <p>Zero-knowledge proof is generated and sent automatically</p>
+                  </div>
+                </div>
                 <CodeBlock language="typescript" className={styles.demoCodeBlock}>
-{`// api-call.ts
-const response = await fetch('/protected');
+{`const response = await fetch(
+  '/api/protected'
+);
+
 const data = await response.json();
 
-// ✓ Anonymous & Secure`}
+console.log(data);
+// { data: 'Secret!' }
+
+// ✓ Authenticated & Anonymous`}
                 </CodeBlock>
               </div>
             </div>
-          </div>
-        </section>
 
-        {/* 8. Why ZWT? (NEW - consolidated Features + Security + Specs) */}
-        <section className={styles.whyZWT}>
-          <div className="container">
-            <h2 className={styles.sectionTitle}>Why ZWT?</h2>
-            <p className={styles.whySubtitle}>
-              Battle-tested cryptography meets developer-friendly APIs
-            </p>
-
-            <div className={styles.whyGrid}>
-              <div className={styles.whyBox}>
-                <div className={styles.whyBoxHeader}>
-                  <div className={styles.whyIcon}>🔐</div>
-                  <h3>Cryptographically Secure</h3>
-                </div>
-                <p className={styles.whyDescription}>
-                  Built on production-grade SNARKs using Semaphore Protocol v4.
-                  Proofs are mathematically verified on BN254 curves with Poseidon hashing.
-                </p>
-                <div className={styles.whyMetrics}>
-                  <div className={styles.whyMetric}>
-                    <span className={styles.metricLabel}>Proof Generation</span>
-                    <span className={styles.metricValue}>~2-3s</span>
-                  </div>
-                  <div className={styles.whyMetric}>
-                    <span className={styles.metricLabel}>Verification</span>
-                    <span className={styles.metricValue}>~100ms</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className={styles.whyBox}>
-                <div className={styles.whyBoxHeader}>
-                  <div className={styles.whyIcon}>👤</div>
-                  <h3>Complete Anonymity</h3>
-                </div>
-                <p className={styles.whyDescription}>
-                  Server sees only valid proofs, never personal data. Users prove group
-                  membership without revealing which member they are.
-                </p>
-                <div className={styles.whyMetrics}>
-                  <div className={styles.whyMetric}>
-                    <span className={styles.metricLabel}>Server Knowledge</span>
-                    <span className={styles.metricValue}>Zero</span>
-                  </div>
-                  <div className={styles.whyMetric}>
-                    <span className={styles.metricLabel}>User Tracking</span>
-                    <span className={styles.metricValue}>Zero</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className={styles.whyBox}>
-                <div className={styles.whyBoxHeader}>
-                  <div className={styles.whyIcon}>🛡️</div>
-                  <h3>Replay Protection</h3>
-                </div>
-                <p className={styles.whyDescription}>
-                  Built-in nullifier tracking prevents proof reuse. Each proof works once
-                  per epoch with configurable time windows.
-                </p>
-                <div className={styles.whyMetrics}>
-                  <div className={styles.whyMetric}>
-                    <span className={styles.metricLabel}>Usage Limit</span>
-                    <span className={styles.metricValue}>1 per epoch</span>
-                  </div>
-                  <div className={styles.whyMetric}>
-                    <span className={styles.metricLabel}>Expiry</span>
-                    <span className={styles.metricValue}>Automatic</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className={styles.whyBox}>
-                <div className={styles.whyBoxHeader}>
-                  <div className={styles.whyIcon}>⚡</div>
-                  <h3>Auto-Injection</h3>
-                </div>
-                <p className={styles.whyDescription}>
-                  Frontend automatically generates and injects proofs. Developers just
-                  make normal API calls with full TypeScript support.
-                </p>
-                <div className={styles.whyMetrics}>
-                  <div className={styles.whyMetric}>
-                    <span className={styles.metricLabel}>Backend</span>
-                    <span className={styles.metricValue}>NestJS guards</span>
-                  </div>
-                  <div className={styles.whyMetric}>
-                    <span className={styles.metricLabel}>Frontend</span>
-                    <span className={styles.metricValue}>React hooks</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className={styles.whyBox}>
-                <div className={styles.whyBoxHeader}>
-                  <div className={styles.whyIcon}>✅</div>
-                  <h3>Production Ready</h3>
-                </div>
-                <p className={styles.whyDescription}>
-                  Audited cryptography, comprehensive error handling, and full test coverage.
-                  Compatible with modern Node.js and browsers.
-                </p>
-                <div className={styles.whyMetrics}>
-                  <div className={styles.whyMetric}>
-                    <span className={styles.metricLabel}>Node.js</span>
-                    <span className={styles.metricValue}>≥20.0.0</span>
-                  </div>
-                  <div className={styles.whyMetric}>
-                    <span className={styles.metricLabel}>Browsers</span>
-                    <span className={styles.metricValue}>ES2020+</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className={styles.whyBox}>
-                <div className={styles.whyBoxHeader}>
-                  <div className={styles.whyIcon}>📦</div>
-                  <h3>Simple Integration</h3>
-                </div>
-                <p className={styles.whyDescription}>
-                  Three packages, one install. Add a decorator to your controller,
-                  create an identity in your frontend. Zero config needed.
-                </p>
-                <div className={styles.whyMetrics}>
-                  <div className={styles.whyMetric}>
-                    <span className={styles.metricLabel}>Proof Size</span>
-                    <span className={styles.metricValue}>~1.5KB</span>
-                  </div>
-                  <div className={styles.whyMetric}>
-                    <span className={styles.metricLabel}>Setup Time</span>
-                    <span className={styles.metricValue}>&lt;5 min</span>
-                  </div>
-                </div>
-              </div>
+            <div className={styles.carouselDots}>
+              <label htmlFor="slide-1" className={styles.carouselDot}></label>
+              <label htmlFor="slide-2" className={styles.carouselDot}></label>
+              <label htmlFor="slide-3" className={styles.carouselDot}></label>
             </div>
           </div>
+          </div>
         </section>
 
-        {/* 9. Powered by Semaphore (MOVED, simplified) */}
+        {/* 8. Powered by Semaphore (MOVED, simplified) */}
         <section className={styles.techStack}>
           <div className="container">
             <p className={styles.poweredBy}>Powered by</p>
@@ -680,7 +566,7 @@ const data = await response.json();
           </div>
         </section>
 
-        {/* 10. Complete Example */}
+        {/* 9. Complete Example */}
         <section className={styles.quickExample}>
           <div className="container">
             <h2 className={styles.sectionTitle}>Complete Example</h2>
@@ -739,7 +625,7 @@ await api.post('/api/vote', {
           </div>
         </section>
 
-        {/* 11. FAQ */}
+        {/* 10. FAQ */}
         <section className={styles.faqSection}>
           <div className="container">
             <h2 className={styles.sectionTitle}>Frequently Asked Questions</h2>
@@ -818,7 +704,7 @@ await api.post('/api/vote', {
           </div>
         </section>
 
-        {/* 12. Final CTA */}
+        {/* 11. Final CTA */}
         <section className={styles.finalCTA}>
           <div className="container">
             <div className={styles.ctaBox}>
