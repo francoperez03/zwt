@@ -145,22 +145,6 @@ Unique hash per (identity + externalNullifier) that prevents replay attacks.
 ### External Nullifier
 Defines the scope of uniqueness. Epoch-based nullifiers enable N accesses per time period.
 
-## Project Research System
-
-This project uses a PRP (Project Research Proposal) system for complex features.
-
-See:
-- [GUIA_RAPIDA_PRP.md](GUIA_RAPIDA_PRP.md) - Quick guide
-- [PROJECT_OVERVIEW.md](PROJECT_OVERVIEW.md) - Complete project context
-- [research/](research/) - All project research
-
-## Documentation
-
-- **PROJECT_OVERVIEW.md** - Complete architectural overview
-- **research/architecture/** - Architecture decisions
-- **research/patterns/** - Implementation patterns (guards, interceptors)
-- **research/libraries/semaphore/** - Semaphore Protocol docs
-
 ## Technologies
 
 - **Semaphore Protocol v4** - Zero-knowledge proofs
