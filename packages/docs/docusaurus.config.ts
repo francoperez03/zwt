@@ -5,8 +5,8 @@ import type * as Preset from '@docusaurus/preset-classic';
 // This runs in Node.js - Don't use client-side code here (browser APIs, JSX...)
 
 const config: Config = {
-  title: 'ZWT Documentation',
-  tagline: 'Zero-Knowledge Token - Anonymous Access Control with Semaphore Protocol',
+  title: 'ZWT - Zero Knowledge Web Token',
+  tagline: 'Anonymous Authentication Made Simple',
   favicon: 'img/favicon.ico',
 
   // Future flags, see https://docusaurus.io/docs/api/docusaurus-config#future
@@ -15,7 +15,7 @@ const config: Config = {
   },
 
   // Set the production url of your site here
-  url: 'https://your-docusaurus-site.example.com',
+  url: process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3001',
   // Set the /<baseUrl>/ pathname under which your site is served
   // For GitHub pages deployment, it is often '/<projectName>/'
   baseUrl: '/',
@@ -59,11 +59,15 @@ const config: Config = {
       respectPrefersColorScheme: true,
     },
     navbar: {
-      title: 'ZWT',
+      title: '',
       logo: {
-        alt: 'ZWT Logo',
-        src: 'img/logo.svg',
+        alt: 'Home',
+        src: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSJub25lIiBzdHJva2U9ImN1cnJlbnRDb2xvciIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiPjxwYXRoIGQ9Im0zIDkgOS03IDkgN3YxMWEyIDIgMCAwIDEtMiAySDVhMiAyIDAgMCAxLTItMnoiLz48cG9seWxpbmUgcG9pbnRzPSI5IDIyIDkgMTIgMTUgMTIgMTUgMjIiLz48L3N2Zz4=',
+        href: '/',
+        width: 24,
+        height: 24,
       },
+      hideOnScroll: false,
       items: [
         {
           type: 'docSidebar',
@@ -78,9 +82,9 @@ const config: Config = {
           label: 'API Reference',
         },
         {
-          href: 'https://github.com/after9to5/zwt',
-          label: 'GitHub',
+          type: 'html',
           position: 'right',
+          value: '<a href="http://localhost:5173" target="_blank" rel="noopener noreferrer" class="button button--primary" style="margin-left: 0.5rem;">Launch App</a>',
         },
       ],
     },
@@ -127,7 +131,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} ZWT Project. Built with Docusaurus.`,
+      copyright: `Made with ☀️ from Crecimiento for ZKET and Semaphore, we love you guys!`,
     },
     prism: {
       theme: prismThemes.github,

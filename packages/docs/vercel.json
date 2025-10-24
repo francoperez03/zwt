@@ -1,0 +1,11 @@
+{
+  "buildCommand": "npm run build",
+  "outputDirectory": "build",
+  "framework": "docusaurus",
+  "installCommand": "npm install",
+  "devCommand": "npm start",
+  "ignoreCommand": "git diff --quiet HEAD^ HEAD ./",
+  "env": {
+    "NODE_VERSION": "20"
+  }
+}

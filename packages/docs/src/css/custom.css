@@ -53,16 +53,11 @@
   --ifm-code-background: hsl(215, 27.9%, 16.9%);
 }
 
-/* Remove default hero padding for seamless iframe integration */
-.homepage-iframe-container {
-  margin: 0;
-  padding: 0;
+/* Navbar customization */
+.navbar__logo {
+  filter: brightness(0) saturate(100%) invert(62%) sepia(31%) saturate(1283%) hue-rotate(192deg) brightness(100%) contrast(92%);
 }
 
-/* Make iframe responsive and seamless */
-.zwt-app-iframe {
-  border: none;
-  width: 100%;
-  display: block;
-  background: transparent;
+[data-theme='dark'] .navbar__logo {
+  filter: brightness(0) saturate(100%) invert(72%) sepia(24%) saturate(1283%) hue-rotate(192deg) brightness(100%) contrast(92%);
 }
