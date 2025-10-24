@@ -7,9 +7,8 @@ export async function generateProof(input: ProofInput): Promise<ProofResult> {
   const { identity, groupMembers, signal, externalNullifier } = input;
 
   const group = new Group(groupMembers);
-  // Parse the "trapdoor:nullifier" format
-  const [trapdoor, nullifier] = identity.privateKey.split(':');
-  const identityObject = new Identity({ trapdoor, nullifier });
+  // In Semaphore v4, import() accepts a string directly
+  const identityObject = Identity.import(identity.privateKey);
 
   const proof = await semaphoreGenerateProof(
     identityObject,

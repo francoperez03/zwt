@@ -1,165 +1,454 @@
 import { useState } from 'react';
-import axios, { AxiosError } from 'axios';
+import axios from 'axios';
 import { useIdentity } from '../hooks/useIdentity';
-import { Button } from './ui/button';
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from './ui/card';
-import { Badge } from './ui/badge';
-import { RequestResponseViewer } from './RequestResponseViewer';
-import { IdentityCard } from './IdentityCard';
-import { Loader2, UserPlus, Info } from 'lucide-react';
+import { CheckCircle2, Copy, Check, User, Lock, Key } from 'lucide-react';
 
 function Signup() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [requestData, setRequestData] = useState<any>(null);
-  const [responseData, setResponseData] = useState<any>(null);
+  const [copied, setCopied] = useState<string | null>(null);
   const { identity, saveIdentity, clearIdentity } = useIdentity();
 
-  const handleSignup = async () => {
+  const handleCreateAccount = async () => {
     setLoading(true);
     setError(null);
-    setRequestData(null);
-    setResponseData(null);
-
-    const req = {
-      method: 'POST',
-      url: 'http://localhost:3000/auth/signup',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    };
-
-    setRequestData(req);
 
     try {
       const response = await axios.post('http://localhost:3000/auth/signup');
-
-      const res = {
-        status: response.status,
-        statusText: response.statusText,
-        data: response.data
-      };
-
-      setResponseData(res);
 
       if (response.data.success) {
         saveIdentity(response.data.identity);
       }
     } catch (err) {
-      const axiosError = err as AxiosError;
-      setError('Error al crear identidad. Verifica que el servidor esté ejecutándose.');
-      
-      if (axiosError.response) {
-        setResponseData({
-          status: axiosError.response.status,
-          statusText: axiosError.response.statusText,
-          data: axiosError.response.data
-        });
-      }
-      
+      setError('Failed to create account. Please try again.');
       console.error(err);
     } finally {
       setLoading(false);
     }
   };
 
+  const copyToClipboard = async (text: string, field: string) => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setCopied(field);
+      setTimeout(() => setCopied(null), 2000);
+    } catch (err) {
+      console.error('Failed to copy:', err);
+    }
+  };
+
+  const truncate = (str: string, length: number = 20) => {
+    if (str.length <= length) return str;
+    return `${str.substring(0, length)}...`;
+  };
+
   return (
-    <div className="space-y-6">
-      {/* Header Card */}
-      <Card className="border-primary/30">
-        <CardHeader>
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-primary/20 rounded-lg">
-              <UserPlus className="w-6 h-6 text-primary" />
-            </div>
-            <div>
-              <CardTitle className="text-2xl">Crear Identidad Anónima</CardTitle>
-              <CardDescription className="text-base mt-1">
-                Paso 1: Genera tu identidad basada en Semaphore Protocol
-              </CardDescription>
-            </div>
-          </div>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex items-start gap-2 p-4 bg-blue-500/10 border border-blue-500/30 rounded-lg">
-            <Info className="w-5 h-5 text-blue-400 mt-0.5 flex-shrink-0" />
-            <div className="space-y-1 text-sm">
-              <p className="text-foreground">
-                <strong>¿Qué es esto?</strong>
-              </p>
-              <p className="text-muted-foreground">
-                El servidor generará una identidad Semaphore que incluye:
-              </p>
-              <ul className="list-disc list-inside text-muted-foreground space-y-0.5 ml-2">
-                <li><strong className="text-foreground">Private Key:</strong> Tu clave secreta (guárdala bien)</li>
-                <li><strong className="text-foreground">Public Key:</strong> Tu clave pública</li>
-                <li><strong className="text-foreground">Commitment:</strong> Tu ID público registrado en el grupo</li>
-              </ul>
-              <p className="text-muted-foreground mt-2">
-                Con esta identidad podrás generar pruebas zero-knowledge para acceder a recursos protegidos sin revelar quién eres.
-              </p>
-            </div>
-          </div>
+    <div style={styles.container}>
+      <div style={styles.content}>
+        {/* Header */}
+        <div style={styles.header}>
+          <h1 style={styles.title}>CREATE YOUR ACCOUNT</h1>
+          <p style={styles.subtitle}>
+            Get started with secure, private access to protected resources
+          </p>
+        </div>
 
-          {!identity ? (
-            <>
-              <Button 
-                onClick={handleSignup} 
-                disabled={loading}
-                size="lg"
-                className="w-full"
-              >
-                {loading ? (
-                  <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                    Generando Identidad...
-                  </>
-                ) : (
-                  <>
-                    <UserPlus className="mr-2 h-4 w-4" />
-                    Crear Mi Identidad
-                  </>
-                )}
-              </Button>
+        {/* Create Account Button (if no identity) */}
+        {!identity && (
+          <button
+            onClick={handleCreateAccount}
+            disabled={loading}
+            style={{
+              ...styles.createButton,
+              ...(loading ? styles.createButtonDisabled : {}),
+            }}
+            onMouseEnter={(e) => {
+              if (!loading) {
+                e.currentTarget.style.transform = 'translateY(-2px)';
+                e.currentTarget.style.boxShadow = '0 0 30px rgba(255, 255, 255, 0.7), 0 8px 24px rgba(0, 0, 0, 0.4)';
+              }
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'translateY(0)';
+              e.currentTarget.style.boxShadow = '0 0 20px rgba(255, 255, 255, 0.5), 0 4px 16px rgba(0, 0, 0, 0.3)';
+            }}
+          >
+            {loading ? 'CREATING ACCOUNT...' : 'CREATE ACCOUNT'}
+          </button>
+        )}
 
-              {error && (
-                <div className="p-4 bg-destructive/10 border border-destructive/30 rounded-lg">
-                  <p className="text-sm text-destructive">{error}</p>
+        {error && <div style={styles.error}>{error}</div>}
+
+        {/* Account Created Success */}
+        {identity && (
+          <>
+            {/* Success Banner */}
+            <div style={styles.successBanner}>
+              <CheckCircle2 style={styles.checkmark} />
+              <span style={styles.successText}>ACCOUNT CREATED SUCCESSFULLY</span>
+            </div>
+
+            {/* Credentials Card */}
+            <div style={styles.credentialsCard}>
+              <h2 style={styles.cardTitle}>Your Credentials</h2>
+
+              {/* Account ID */}
+              <div style={styles.fieldGroup}>
+                <div style={styles.labelRow}>
+                  <span style={styles.label}>
+                    <User size={16} style={styles.iconStyle} />
+                    Account ID (Commitment)
+                  </span>
+                  <button
+                    onClick={() => copyToClipboard(identity.commitment, 'commitment')}
+                    style={styles.copyButton}
+                    title="Copy to clipboard"
+                  >
+                    {copied === 'commitment' ? <Check size={16} /> : <Copy size={16} />}
+                  </button>
                 </div>
-              )}
-            </>
-          ) : (
-            <div className="space-y-4">
-              <div className="flex items-center gap-2 p-3 bg-green-500/10 border border-green-500/30 rounded-lg">
-                <Badge variant="default" className="bg-green-600">
-                  ✓ Identidad Creada
-                </Badge>
-                <span className="text-sm text-muted-foreground">
-                  Tu identidad ha sido generada y guardada localmente
-                </span>
+                <div style={styles.valueBox}>
+                  <code style={styles.valueText}>{identity.commitment}</code>
+                </div>
+                <p style={styles.description}>
+                  Your unique account identifier. This public ID proves you belong to the authorized group without revealing your identity.
+                </p>
+              </div>
+
+              {/* Secure Key */}
+              <div style={styles.fieldGroup}>
+                <div style={styles.labelRow}>
+                  <span style={styles.label}>
+                    <Lock size={16} style={styles.iconStyle} />
+                    Secure Key (Private Key)
+                  </span>
+                  <button
+                    onClick={() => copyToClipboard(identity.privateKey, 'privateKey')}
+                    style={styles.copyButton}
+                    title="Copy to clipboard"
+                  >
+                    {copied === 'privateKey' ? <Check size={16} /> : <Copy size={16} />}
+                  </button>
+                </div>
+                <div style={styles.valueBox}>
+                  <code style={styles.valueText}>{identity.privateKey}</code>
+                </div>
+                <p style={styles.description}>
+                  Your secret authentication key. Used to generate cryptographic proofs for secure access without exposing this key.
+                </p>
+                <div style={styles.warningBox}>
+                  <Lock size={16} style={styles.warningIcon} />
+                  <span style={styles.warningText}>
+                    Keep this safe - never share with anyone. Anyone with this key can authenticate as you.
+                  </span>
+                </div>
+              </div>
+
+              {/* Session Token */}
+              <div style={styles.fieldGroup}>
+                <div style={styles.labelRow}>
+                  <span style={styles.label}>
+                    <Key size={16} style={styles.iconStyle} />
+                    Session Token (Public Key)
+                  </span>
+                  <button
+                    onClick={() => copyToClipboard(identity.publicKey, 'publicKey')}
+                    style={styles.copyButton}
+                    title="Copy to clipboard"
+                  >
+                    {copied === 'publicKey' ? <Check size={16} /> : <Copy size={16} />}
+                  </button>
+                </div>
+                <div style={styles.valueBox}>
+                  <code style={styles.valueText}>{identity.publicKey}</code>
+                </div>
+                <p style={styles.description}>
+                  Public session identifier. Can be safely shared and is used alongside your proofs during authentication.
+                </p>
+              </div>
+
+              {/* Clear Button */}
+              <button onClick={clearIdentity} style={styles.clearButton}>
+                Clear Account
+              </button>
+            </div>
+
+            {/* How It Works */}
+            <div style={styles.howItWorksCard}>
+              <h2 style={styles.cardTitle}>How Your Account Works</h2>
+
+              <div style={styles.stepContainer}>
+                <div style={styles.step}>
+                  <div style={styles.stepNumber}>1</div>
+                  <div style={styles.stepContent}>
+                    <h3 style={styles.stepTitle}>Automatic Login</h3>
+                    <p style={styles.stepDescription}>
+                      Your credentials are stored securely in your browser. No need to re-enter them each time.
+                    </p>
+                  </div>
+                </div>
+
+                <div style={styles.step}>
+                  <div style={styles.stepNumber}>2</div>
+                  <div style={styles.stepContent}>
+                    <h3 style={styles.stepTitle}>Seamless Access</h3>
+                    <p style={styles.stepDescription}>
+                      When you access protected resources, you're automatically authenticated in the background.
+                    </p>
+                  </div>
+                </div>
+
+                <div style={styles.step}>
+                  <div style={styles.stepNumber}>3</div>
+                  <div style={styles.stepContent}>
+                    <h3 style={styles.stepTitle}>Privacy Focused</h3>
+                    <p style={styles.stepDescription}>
+                      Your authentication is processed without tracking or storing your personal activity.
+                    </p>
+                  </div>
+                </div>
               </div>
             </div>
-          )}
-        </CardContent>
-      </Card>
-
-      {/* Identity Display */}
-      {identity && (
-        <IdentityCard identity={identity} onClear={clearIdentity} />
-      )}
-
-      {/* HTTP Call Viewer */}
-      {(requestData || responseData) && (
-        <RequestResponseViewer
-          title="📡 Llamada HTTP: POST /auth/signup"
-          description="Este endpoint genera una nueva identidad Semaphore y la registra en el grupo del servidor"
-          request={requestData}
-          response={responseData}
-          loading={loading}
-        />
-      )}
+          </>
+        )}
+      </div>
     </div>
   );
 }
+
+const styles: Record<string, React.CSSProperties> = {
+  container: {
+    minHeight: '100vh',
+    padding: '40px 20px',
+    fontFamily: "'Inter', 'Roboto', sans-serif",
+  },
+  content: {
+    maxWidth: '700px',
+    margin: '0 auto',
+  },
+  header: {
+    textAlign: 'center' as const,
+    marginBottom: '50px',
+  },
+  title: {
+    fontSize: '48px',
+    fontWeight: '800',
+    color: '#ffffff',
+    marginBottom: '16px',
+    letterSpacing: '2px',
+    fontFamily: "'Rajdhani', 'Orbitron', sans-serif",
+    textShadow: '0 0 30px rgba(255, 255, 255, 0.3)',
+  },
+  subtitle: {
+    fontSize: '18px',
+    color: '#a0a0a0',
+    lineHeight: '1.6',
+    maxWidth: '500px',
+    margin: '0 auto',
+  },
+  createButton: {
+    width: '100%',
+    padding: '20px 40px',
+    fontSize: '20px',
+    fontWeight: '700',
+    letterSpacing: '2px',
+    color: '#ffffff',
+    background: 'linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%)',
+    border: '2px solid #ffffff',
+    borderRadius: '8px',
+    cursor: 'pointer',
+    transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)',
+    boxShadow: '0 0 20px rgba(255, 255, 255, 0.5), 0 4px 16px rgba(0, 0, 0, 0.3)',
+    fontFamily: "'Rajdhani', sans-serif",
+    textTransform: 'uppercase' as const,
+  },
+  createButtonDisabled: {
+    opacity: 0.6,
+    cursor: 'not-allowed',
+  },
+  error: {
+    marginTop: '20px',
+    padding: '16px',
+    background: 'rgba(239, 68, 68, 0.1)',
+    border: '1px solid #ef4444',
+    borderRadius: '8px',
+    color: '#ef4444',
+    textAlign: 'center' as const,
+  },
+  successBanner: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    gap: '12px',
+    padding: '20px',
+    background: 'rgba(74, 222, 128, 0.1)',
+    border: '2px solid #4ade80',
+    borderRadius: '8px',
+    marginBottom: '30px',
+    boxShadow: '0 0 20px rgba(74, 222, 128, 0.2)',
+  },
+  checkmark: {
+    color: '#4ade80',
+    width: '24px',
+    height: '24px',
+  },
+  successText: {
+    fontSize: '18px',
+    fontWeight: '700',
+    color: '#4ade80',
+    letterSpacing: '1px',
+    fontFamily: "'Rajdhani', sans-serif",
+  },
+  credentialsCard: {
+    background: 'rgba(26, 26, 26, 0.95)',
+    border: '1px solid #333333',
+    borderRadius: '12px',
+    padding: '32px',
+    marginBottom: '30px',
+    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)',
+    backdropFilter: 'blur(10px)',
+  },
+  cardTitle: {
+    fontSize: '24px',
+    fontWeight: '700',
+    color: '#ffffff',
+    marginBottom: '30px',
+    fontFamily: "'Rajdhani', sans-serif",
+    letterSpacing: '1px',
+  },
+  fieldGroup: {
+    marginBottom: '28px',
+  },
+  labelRow: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: '10px',
+  },
+  label: {
+    fontSize: '14px',
+    fontWeight: '600',
+    color: '#ffffff',
+    textTransform: 'uppercase' as const,
+    letterSpacing: '1px',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '6px',
+  },
+  iconStyle: {
+    flexShrink: 0,
+  },
+  copyButton: {
+    background: 'transparent',
+    border: '1px solid #555555',
+    borderRadius: '6px',
+    padding: '6px 12px',
+    fontSize: '16px',
+    color: '#a0a0a0',
+    cursor: 'pointer',
+    transition: 'all 0.2s',
+  },
+  valueBox: {
+    background: '#0a0a0a',
+    border: '1px solid #333333',
+    borderRadius: '8px',
+    padding: '16px',
+    marginBottom: '8px',
+    overflowX: 'auto' as const,
+  },
+  valueText: {
+    fontFamily: "'Fira Code', 'Courier New', monospace",
+    fontSize: '13px',
+    color: '#00ffff',
+    wordBreak: 'break-all' as const,
+    display: 'block',
+  },
+  description: {
+    fontSize: '13px',
+    color: '#666666',
+    margin: '0',
+    fontStyle: 'italic' as const,
+  },
+  warningBox: {
+    display: 'flex',
+    alignItems: 'flex-start',
+    gap: '8px',
+    padding: '12px',
+    background: 'rgba(251, 191, 36, 0.05)',
+    border: '1px solid rgba(251, 191, 36, 0.3)',
+    borderRadius: '6px',
+  },
+  warningIcon: {
+    flexShrink: 0,
+    color: '#fbbf24',
+  },
+  warningText: {
+    fontSize: '13px',
+    color: '#fbbf24',
+    lineHeight: '1.5',
+  },
+  clearButton: {
+    marginTop: '20px',
+    padding: '12px 24px',
+    background: 'transparent',
+    border: '1px solid #555555',
+    borderRadius: '6px',
+    color: '#a0a0a0',
+    fontSize: '14px',
+    cursor: 'pointer',
+    transition: 'all 0.2s',
+    fontFamily: "'Rajdhani', sans-serif",
+    letterSpacing: '0.5px',
+  },
+  howItWorksCard: {
+    background: 'rgba(26, 26, 26, 0.95)',
+    border: '1px solid #333333',
+    borderRadius: '12px',
+    padding: '32px',
+    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.4)',
+    backdropFilter: 'blur(10px)',
+  },
+  stepContainer: {
+    display: 'flex',
+    flexDirection: 'column' as const,
+    gap: '24px',
+  },
+  step: {
+    display: 'flex',
+    gap: '20px',
+    alignItems: 'flex-start',
+  },
+  stepNumber: {
+    width: '48px',
+    height: '48px',
+    flexShrink: 0,
+    background: 'linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%)',
+    borderRadius: '50%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontSize: '24px',
+    fontWeight: '800',
+    color: '#0a0a0a',
+    fontFamily: "'Rajdhani', sans-serif",
+    boxShadow: '0 4px 12px rgba(255, 255, 255, 0.4)',
+  },
+  stepContent: {
+    flex: 1,
+  },
+  stepTitle: {
+    fontSize: '18px',
+    fontWeight: '600',
+    color: '#ffffff',
+    marginBottom: '8px',
+    fontFamily: "'Rajdhani', sans-serif",
+  },
+  stepDescription: {
+    fontSize: '15px',
+    color: '#a0a0a0',
+    lineHeight: '1.6',
+    margin: '0',
+  },
+};
 
 export default Signup;

@@ -4,10 +4,8 @@ import { IdentityData } from './types';
 export function createIdentity(): IdentityData {
   const identity = new Identity();
 
-  // Export the identity and convert to a simple string format
-  const exported = identity.export();
-  // Store as "trapdoor:nullifier" format (ensure they're strings)
-  const privateKeyString = `${exported.trapdoor.toString()}:${exported.nullifier.toString()}`;
+  // In Semaphore v4, export() returns a string directly
+  const privateKeyString = identity.export();
 
   return {
     privateKey: privateKeyString,
@@ -17,15 +15,11 @@ export function createIdentity(): IdentityData {
 }
 
 export function importIdentity(privateKey: string): IdentityData {
-  // Parse the "trapdoor:nullifier" format back to object
-  const [trapdoor, nullifier] = privateKey.split(':');
-  const identity = new Identity({ trapdoor, nullifier });
-
-  const exported = identity.export();
-  const privateKeyString = `${exported.trapdoor}:${exported.nullifier}`;
+  // In Semaphore v4, import() accepts a string directly
+  const identity = Identity.import(privateKey);
 
   return {
-    privateKey: privateKeyString,
+    privateKey: identity.export(),
     publicKey: identity.publicKey.toString(),
     commitment: identity.commitment.toString()
   };

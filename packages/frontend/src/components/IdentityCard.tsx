@@ -80,7 +80,7 @@ export function IdentityCard({ identity, onClear }: IdentityCardProps) {
             <p className="text-xs text-green-400">✓ Copiado</p>
           )}
           <p className="text-xs text-destructive/70">
-            ⚠️ Mantén esto en secreto. Es tu identidad anónima.
+            Mantén esto en secreto. Es tu identidad anónima.
           </p>
         </div>
 
