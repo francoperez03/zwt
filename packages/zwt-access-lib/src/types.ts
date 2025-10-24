@@ -11,11 +11,16 @@ export interface ProofInput {
   externalNullifier: string;
 }
 
+// PackedGroth16Proof from @zk-kit/utils is a tuple of 8 numeric strings
+export type PackedGroth16Proof = [string, string, string, string, string, string, string, string];
+
 export interface ProofResult {
-  proof: any;
+  proof: PackedGroth16Proof;
   nullifierHash: string;
   externalNullifier: string;
   signal: string;
+  merkleTreeDepth: number;
+  merkleTreeRoot: string;
 }
 
 export interface AccessContext {
