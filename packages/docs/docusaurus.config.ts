@@ -44,19 +44,7 @@ const config: Config = {
           // Remove edit URL for now
           // editUrl: 'https://github.com/after9to5/zwt/tree/main/packages/docs/',
         },
-        blog: {
-          showReadingTime: true,
-          feedOptions: {
-            type: ['rss', 'atom'],
-            xslt: true,
-          },
-          // Remove edit URL for blog
-          // editUrl: 'https://github.com/after9to5/zwt/tree/main/packages/docs/',
-          // Useful options to enforce blogging best practices
-          onInlineTags: 'warn',
-          onInlineAuthors: 'warn',
-          onUntruncatedBlogPosts: 'warn',
-        },
+        blog: false,  // Disable blog
         theme: {
           customCss: './src/css/custom.css',
         },
@@ -89,7 +77,6 @@ const config: Config = {
           position: 'left',
           label: 'API Reference',
         },
-        {to: '/blog', label: 'Blog', position: 'left'},
         {
           href: 'https://github.com/after9to5/zwt',
           label: 'GitHub',
@@ -101,28 +88,32 @@ const config: Config = {
       style: 'dark',
       links: [
         {
-          title: 'Docs',
+          title: 'Documentation',
           items: [
             {
-              label: 'Tutorial',
+              label: 'Introduction',
               to: '/docs/intro',
+            },
+            {
+              label: 'Getting Started',
+              to: '/docs/getting-started/installation',
+            },
+            {
+              label: 'API Reference',
+              to: '/docs/api/overview',
             },
           ],
         },
         {
-          title: 'Community',
+          title: 'Resources',
           items: [
             {
-              label: 'Stack Overflow',
-              href: 'https://stackoverflow.com/questions/tagged/docusaurus',
+              label: 'Semaphore Protocol',
+              href: 'https://semaphore.pse.dev',
             },
             {
-              label: 'Discord',
-              href: 'https://discordapp.com/invite/docusaurus',
-            },
-            {
-              label: 'X',
-              href: 'https://x.com/docusaurus',
+              label: 'Zero-Knowledge Proofs',
+              href: 'https://zkproof.org',
             },
           ],
         },
@@ -130,12 +121,8 @@ const config: Config = {
           title: 'More',
           items: [
             {
-              label: 'Blog',
-              to: '/blog',
-            },
-            {
               label: 'GitHub',
-              href: 'https://github.com/facebook/docusaurus',
+              href: 'https://github.com/after9to5/zwt',
             },
           ],
         },
