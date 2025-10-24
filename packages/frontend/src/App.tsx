@@ -12,32 +12,32 @@ function App() {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="border-b border-border bg-card/50 backdrop-blur-sm sticky top-0 z-50">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-primary/20 rounded-lg">
-                <Shield className="w-6 h-6 text-primary" />
+          <div className="container mx-auto px-4 py-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <div className="p-2 bg-primary/20 rounded-lg">
+                  <Shield className="w-6 h-6 text-primary" />
+                </div>
+                <div>
+                  <h1 className="text-2xl font-bold text-foreground">
+                    ZWT - Zero-Knowledge Token
+                  </h1>
+                  <p className="text-sm text-muted-foreground">
+                    Autenticación anónima con Semaphore Protocol
+                  </p>
+                </div>
               </div>
-              <div>
-                <h1 className="text-2xl font-bold text-foreground">
-                  ZWT - Zero-Knowledge Token
-                </h1>
-                <p className="text-sm text-muted-foreground">
-                  Autenticación anónima con Semaphore Protocol
-                </p>
+              <div className="flex items-center gap-2">
+                {identity && (
+                  <Badge variant="default" className="gap-1.5">
+                    <KeyRound className="w-3 h-3" />
+                    Identidad Activa
+                  </Badge>
+                )}
               </div>
-            </div>
-            <div className="flex items-center gap-2">
-              {identity && (
-                <Badge variant="default" className="gap-1.5">
-                  <KeyRound className="w-3 h-3" />
-                  Identidad Activa
-                </Badge>
-              )}
             </div>
           </div>
-        </div>
-      </header>
+        </header>
 
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
@@ -79,34 +79,34 @@ function App() {
 
       {/* Footer */}
       <footer className="border-t border-border mt-16 py-8 bg-card/30">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="text-sm text-muted-foreground">
-              <p>Zero-Knowledge Token Demo - Powered by Semaphore Protocol</p>
-            </div>
-            <div className="flex items-center gap-4">
-              <a 
-                href="https://github.com/semaphore-protocol/semaphore" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
-              >
-                <Github className="w-4 h-4" />
-                Semaphore GitHub
-              </a>
-              <a 
-                href="https://docs.semaphore.pse.dev/" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
-              >
-                <Book className="w-4 h-4" />
-                Documentación
-              </a>
+          <div className="container mx-auto px-4">
+            <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+              <div className="text-sm text-muted-foreground">
+                <p>Zero-Knowledge Token Demo - Powered by Semaphore Protocol</p>
+              </div>
+              <div className="flex items-center gap-4">
+                <a
+                  href="https://github.com/semaphore-protocol/semaphore"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
+                  <Github className="w-4 h-4" />
+                  Semaphore GitHub
+                </a>
+                <a
+                  href="https://docs.semaphore.pse.dev/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-sm text-muted-foreground hover:text-primary transition-colors"
+                >
+                  <Book className="w-4 h-4" />
+                  Documentación
+                </a>
+              </div>
             </div>
           </div>
-        </div>
-      </footer>
+        </footer>
     </div>
   );
 }
