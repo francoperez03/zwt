@@ -452,11 +452,45 @@ export default function Home() {
         {/* 7. It's This Simple */}
         <section className={styles.simpleDemo}>
           <div className="container">
-            <h2 className={styles.sectionTitle}>It's This Simple</h2>
+            <h2 className={styles.sectionTitle}>Three Lines of Code</h2>
+            <p className={styles.sectionSubtitle}>
+              That's all it takes to add anonymous authentication to your application.
+            </p>
 
-            <div className={styles.carouselWrapper}>
-              <div className={styles.demoSteps}>
-                <div className={styles.demoStep} id="slide-1">
+            <div className={styles.threeLineShowcase}>
+              <div className={styles.codeLineItem}>
+                <div className={styles.lineNumber}>1</div>
+                <div className={styles.lineContent}>
+                  <CodeBlock language="typescript" className={styles.inlineCodeBlock}>
+{`const identity = createIdentity();`}
+                  </CodeBlock>
+                  <p className={styles.lineDescription}>Create anonymous identity</p>
+                </div>
+              </div>
+
+              <div className={styles.codeLineItem}>
+                <div className={styles.lineNumber}>2</div>
+                <div className={styles.lineContent}>
+                  <CodeBlock language="typescript" className={styles.inlineCodeBlock}>
+{`await register(identity.commitment);`}
+                  </CodeBlock>
+                  <p className={styles.lineDescription}>Register in group</p>
+                </div>
+              </div>
+
+              <div className={styles.codeLineItem}>
+                <div className={styles.lineNumber}>3</div>
+                <div className={styles.lineContent}>
+                  <CodeBlock language="typescript" className={styles.inlineCodeBlock}>
+{`const data = await fetch('/api/protected');`}
+                  </CodeBlock>
+                  <p className={styles.lineDescription}>Access protected resources</p>
+                </div>
+              </div>
+            </div>
+
+            <div className={styles.demoSteps}>
+              <div className={styles.demoStep}>
                 <div className={styles.demoStepHeader}>
                   <div className={styles.stepBadge}>1</div>
                   <div className={styles.demoStepInfo}>
@@ -476,7 +510,7 @@ export class AppController {
                 </CodeBlock>
               </div>
 
-              <div className={styles.demoStep} id="slide-2">
+              <div className={styles.demoStep}>
                 <div className={styles.demoStepHeader}>
                   <div className={styles.stepBadge}>2</div>
                   <div className={styles.demoStepInfo}>
@@ -499,7 +533,7 @@ await fetch('/auth/register', {
                 </CodeBlock>
               </div>
 
-              <div className={styles.demoStep} id="slide-3">
+              <div className={styles.demoStep}>
                 <div className={styles.demoStepHeader}>
                   <div className={styles.stepBadge}>3</div>
                   <div className={styles.demoStepInfo}>
@@ -521,13 +555,6 @@ console.log(data);
                 </CodeBlock>
               </div>
             </div>
-
-            <div className={styles.carouselDots}>
-              <label htmlFor="slide-1" className={styles.carouselDot}></label>
-              <label htmlFor="slide-2" className={styles.carouselDot}></label>
-              <label htmlFor="slide-3" className={styles.carouselDot}></label>
-            </div>
-          </div>
           </div>
         </section>
 
