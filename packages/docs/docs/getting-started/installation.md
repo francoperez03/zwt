@@ -16,7 +16,7 @@ Get started with ZWT in just a few steps.
 
 ```bash
 # Clone the repository
-git clone https://github.com/after9to5/zwt.git
+git clone https://github.com/francoperez03/zwt.git
 cd zwt
 
 # Install dependencies

@@ -753,7 +753,7 @@ await api.post('/api/vote', {
                 </Link>
                 <a
                   className="button button--outline button--secondary button--lg"
-                  href="https://github.com/after9to5/zwt"
+                  href="https://github.com/francoperez03/zwt"
                   target="_blank"
                   rel="noopener noreferrer">
                   GitHub

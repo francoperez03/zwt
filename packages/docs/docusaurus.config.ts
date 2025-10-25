@@ -42,7 +42,7 @@ const config: Config = {
         docs: {
           sidebarPath: './sidebars.ts',
           // Remove edit URL for now
-          // editUrl: 'https://github.com/after9to5/zwt/tree/main/packages/docs/',
+          // editUrl: 'https://github.com/francoperez03/zwt/tree/main/packages/docs/',
         },
         blog: false,  // Disable blog
         theme: {
@@ -126,7 +126,7 @@ const config: Config = {
           items: [
             {
               label: 'GitHub',
-              href: 'https://github.com/after9to5/zwt',
+              href: 'https://github.com/francoperez03/zwt',
             },
           ],
         },
